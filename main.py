@@ -5,6 +5,7 @@ from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 import time
 
+# access to a gmail account
 def get_gmail_service():
     creds = None
     token_path = 'token.pickle'
@@ -25,14 +26,17 @@ def get_gmail_service():
 
     return build('gmail', 'v1', credentials=creds)
 
+# check emails
 def check_emails(service, sender_email):
     results = service.users().messages().list(userId='me', q=f'from:{sender_email} is:unread').execute()
     messages = results.get('messages', [])
     return messages
 
+# it is necessary to add python code here
 def execute_python_code():
     print("A new email from the specified account has been found. Executing Python code.")
 
+# this is the main part that runs continuously
 def main():
     sender_email = "example@example.com"
     service = get_gmail_service()
